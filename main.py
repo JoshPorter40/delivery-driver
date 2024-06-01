@@ -1,10 +1,12 @@
 # Hashmap was created using a video my instructor Preety Khatri sent me via her course introductory email and the video
 # is available in course tips: https://www.youtube.com/watch?v=9HFbhPscPU0&ab_channel=OggiAI-ArtificialIntelligenceToday
+import csv
+
 class HashMap:
 
     def __init__(self):
         # sets the size of the array to 64 and sets every cell equal to None to create a list with a fixed length
-        self.size = 256
+        self.size = 64
         self.map = [None] * self.size
 
     def _get_hash(self, key):
@@ -58,4 +60,49 @@ class HashMap:
             if item is not None:
                 print(str(item))
 
-h = HashMap()
+class Package:
+    def __init__(self, packageID, address, city, state, zip, deadline, weight, reqs):
+        #creates a package object
+        self.packageID = int(packageID)
+        self.address = address
+        self.city = city
+        self.state = state
+        self.zip = zip
+        self.deadline = deadline
+        self.weight = int(weight)
+        self.reqs = reqs
+
+    def loadPackageData(filename):
+        # reads in the data from the specified csv file and calls add function to add data to packageData hashmap
+        with open(filename) as csvfile:
+            readCSV = csv.reader(csvfile, delimiter=',')
+            for row in readCSV:
+                package = Package(*row)
+                package.add_package(packageData)
+
+    def add_package(self, hashMap):
+        # adds package to packageData hashmap
+        key = self.packageID
+        hashMap.add(key, self)
+
+class Truck:
+    def __init__(self, startTime, packageID, mileage):
+        self.startTime = startTime
+        self.packageID = packageID
+        self.mileage = mileage
+
+packageData = HashMap()
+Package.loadPackageData('packageCSV.csv')
+
+for i in range(1,41):
+    package = packageData.get(i)
+    if package:
+        print("Package Details:")
+        print("Package ID:", package.packageID)
+        print("Address:", package.address)
+        print("City:", package.city)
+        print("Weight:", package.weight, "\n")
+
+
+
+
