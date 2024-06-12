@@ -247,6 +247,15 @@ class Main:
 
     def view_package_status(packageData, current_time, package_id=None):
         # View the delivery status of all packages or a single package at the specified time
+        package9 = packageData.get(9) # Update package 9 address and zip based on current time
+        if package9:
+            if current_time >= timedelta(hours=10, minutes=20):
+                package9.address = "410 S State St"
+                package9.zip = "84111"
+            else:
+                package9.address = "300 State St"
+                package9.zip = "84103"
+
         if package_id:
             package = packageData.get(package_id)
             if package:
@@ -261,18 +270,15 @@ class Main:
                     package.update_status(current_time)  # Update package status based on current time
                     print(package)
 
-    # Prompt the user to enter the time
-    if text.lower() == "time":
+    if text.lower() == "time": # Prompt the user to enter the time
         time_input = input("Enter the time (HH:MM format): \n")
         try:
             # Convert the user input into hours and minutes
             hours, minutes = map(int, time_input.split(":"))
             # Create a timedelta object representing the specified time
             current_time = timedelta(hours=hours, minutes=minutes)
-
             # Ask the user if they want to see a single package or all packages
             package_option = input("To check a single package, type 'single'. To check all packages, type 'all': \n")
-
             if package_option.lower() == "single":
                 package_id_input = input("Enter the package ID: ")
                 try:
